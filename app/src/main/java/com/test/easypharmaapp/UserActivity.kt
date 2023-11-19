@@ -45,18 +45,15 @@ fun UserActivityPageCompose() {
 
                         if (medicineCart.isEmpty()) {
                             Toast.makeText(context, "Medicine cart is empty", Toast.LENGTH_SHORT).show()
-                        } else {
+                        }
+                        else {
 
                         }
-
-
                     },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
-                ) {
+
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)) {
                     Text("Search Pharmacies")
+
                 }
             }
         }
@@ -132,11 +129,10 @@ fun UserActivityPageCompose() {
 }
 
 fun searchItems(query: String): List<String> {
-    // Dummy search function
-    val itemsList = listOf("Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew")
+    val medicinesList = listOf("Medicine 1", "Medicine 2", "Medicine 3", "Medicine 4", "Medicine 5", "Medicine 6", "Medicine 7", "Medicine 8")
     return if (query.isEmpty()) {
         listOf()
     } else {
-        itemsList.filter { it.contains(query, ignoreCase = true) }
+        medicinesList.filter { it.contains(query, ignoreCase = true) }
     }
 }

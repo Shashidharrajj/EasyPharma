@@ -2,6 +2,7 @@ package com.test.easypharmaapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -24,7 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.test.easypharmaapp.ui.theme.EasyPharmaAppTheme
+import com.test.onlinestoreapp.HelperClass
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +100,31 @@ fun LoginScreenCompose() {
             Spacer(modifier = Modifier.height(10.dp))
 
             Button(
-                onClick = { /* TODO: Implement sign in logic */ },
+                onClick = {
+
+
+                    HelperClass.showProgress(context)
+                    val my_auth = FirebaseAuth.getInstance()
+
+                    my_auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+
+                                HelperClass.hideProgress()
+                                val intent = Intent(context, PharmacistActivity::class.java)
+                                context.startActivity(intent)
+
+
+                            } else {
+                                HelperClass.hideProgress()
+                                Toast.makeText(context, "Login Unsuccessful", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+
+
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
