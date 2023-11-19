@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -76,8 +77,17 @@ fun MainScreenContent() {
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        )
 
+        {
+
+            Text(
+                text = "Select your account type",
+                style = MaterialTheme.typography.h6,
+                color = Color.Black,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.height(5.dp))
             Button(onClick = {
 
 
@@ -85,7 +95,7 @@ fun MainScreenContent() {
                 context.startActivity(intent)
 
             }) {
-                Text("User")
+                Text("Buy Medicine ")
             }
 
             Button(onClick = {
@@ -95,7 +105,7 @@ fun MainScreenContent() {
 
 
             }) {
-                Text("Pharmacist")
+                Text("Pharmacist (seller)")
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
