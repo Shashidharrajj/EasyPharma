@@ -95,7 +95,7 @@ fun MainScreenContent() {
                 context.startActivity(intent)
 
             }) {
-                Text("Buy Medicine ")
+                Text("Search Medicine Pharmacy ")
             }
 
             Button(onClick = {

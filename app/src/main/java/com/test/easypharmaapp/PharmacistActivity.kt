@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -42,10 +42,30 @@ fun PharmacistScreen() {
         Medicine("1", "Aspirin"),
         Medicine("2", "Paracetamol"),
     )
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedMedicine by remember { mutableStateOf<Medicine?>(null) }
 
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Confirm Action") },
+            text = { Text("Are you sure you want to add ${selectedMedicine?.name} to your stock?") },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                }) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("No")
+                }
+            }
+        )
+    }
+
+    Column(modifier = Modifier.padding(16.dp)) {
         Image(
             painter = image,
             contentDescription = "Pharmacy Image",
@@ -58,16 +78,19 @@ fun PharmacistScreen() {
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
         )
-        MedicineList(medicines)
+        MedicineList(medicines) { medicine ->
+            selectedMedicine = medicine
+            showDialog = true
+        }
     }
 }
 
+
 @Composable
-fun MedicineList(medicines: List<Medicine>) {
+fun MedicineList(medicines: List<Medicine>, onItemClick: (Medicine) -> Unit) {
     LazyColumn {
         items(medicines) { medicine ->
-            MedicineItem(medicine) {
-            }
+            MedicineItem(medicine, onClick = { onItemClick(medicine) })
         }
     }
 }
@@ -77,8 +100,8 @@ fun MedicineItem(medicine: Medicine, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .padding(vertical = 4.dp, horizontal = 8.dp),
         elevation = 4.dp,
         shape = MaterialTheme.shapes.medium
     ) {
@@ -89,13 +112,12 @@ fun MedicineItem(medicine: Medicine, onClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "${medicine.name} ",
+                text = "${medicine.name}",
                 style = MaterialTheme.typography.subtitle1
             )
         }
     }
 }
-
 
 
 

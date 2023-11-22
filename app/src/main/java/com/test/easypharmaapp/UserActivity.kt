@@ -129,7 +129,7 @@ fun UserActivityPageCompose() {
 }
 
 fun searchItems(query: String): List<String> {
-    val medicinesList = listOf("Medicine 1", "Medicine 2", "Medicine 3", "Medicine 4", "Medicine 5", "Medicine 6", "Medicine 7", "Medicine 8")
+    val medicinesList = listOf("Asprin", "Paracetamol")
     return if (query.isEmpty()) {
         listOf()
     } else {
