@@ -1,6 +1,8 @@
 package com.test.easypharmaapp
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -13,10 +15,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.database.FirebaseDatabase
 import com.test.easypharmaapp.ui.theme.EasyPharmaAppTheme
+import com.test.onlinestoreapp.HelperClass
 
 class PharmacistActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +41,7 @@ class PharmacistActivity : ComponentActivity() {
 
 @Composable
 fun PharmacistScreen() {
+    var context= LocalContext.current;
     val image: Painter = painterResource(id = R.drawable.newpharma)
     val pharmacyName = "XYZ Pharmacy"
     val medicines = listOf(
@@ -53,6 +59,21 @@ fun PharmacistScreen() {
             confirmButton = {
                 Button(onClick = {
                     showDialog = false
+
+                    val shared_prefs = context.getSharedPreferences("Easypharma", Context.MODE_PRIVATE)
+                    val uid= shared_prefs.getString("uid", null)
+
+                   selectedMedicine?.let {
+                        if (uid != null) {
+                            add_med_to_pharmacist_stock(context,uid, it.id,1)
+                        }
+                    }
+
+
+
+
+
+
                 }) {
                     Text("Yes")
                 }
@@ -126,3 +147,24 @@ data class Medicine(
     val id: String,
     val name: String
 )
+
+
+fun add_med_to_pharmacist_stock(context: Context,pid: String, mid: String, quantity: Int) {
+    HelperClass.showProgress(context)
+    val database_pharmacist = FirebaseDatabase.getInstance()
+    val pharmacist_stock_ref = database_pharmacist.getReference("/pharmacists/$pid/stock/$mid")
+
+    pharmacist_stock_ref.setValue(quantity).addOnSuccessListener {
+
+            Toast.makeText(context,"Successfully Added to stock",Toast.LENGTH_SHORT).show()
+
+            HelperClass.hideProgress()
+
+        }
+        .addOnFailureListener {
+            Toast.makeText(context,"Failed to Added to stock",Toast.LENGTH_SHORT).show()
+            HelperClass.hideProgress()
+
+
+        }
+}

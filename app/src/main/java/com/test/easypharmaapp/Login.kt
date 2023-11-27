@@ -1,5 +1,6 @@
 package com.test.easypharmaapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -111,6 +112,13 @@ fun LoginScreenCompose() {
                             if (task.isSuccessful) {
 
                                 HelperClass.hideProgress()
+                                val uid = my_auth.currentUser?.uid
+
+                                val sharedPreferences = context.getSharedPreferences("Easypharma", Context.MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                editor.putString("uid",uid )
+                                editor.apply()
+
                                 val intent = Intent(context, PharmacistActivity::class.java)
                                 context.startActivity(intent)
 
