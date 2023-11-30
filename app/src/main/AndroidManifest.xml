@@ -33,6 +33,12 @@
             android:exported="false"
             android:label="@string/title_activity_splash"
             android:theme="@style/Theme.EasyPharmaApp" />
+
+        <activity
+            android:name=".PharmaciesPage"
+            android:exported="false"
+            android:label="@string/title_activity_pharmacies_page"
+            android:theme="@style/Theme.EasyPharmaApp" />
         <activity
             android:name=".SignUp"
             android:exported="false"
