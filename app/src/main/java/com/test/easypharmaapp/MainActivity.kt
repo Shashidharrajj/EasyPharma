@@ -71,6 +71,7 @@ fun MainScreenContent() {
             contentDescription = "Image",
             modifier = Modifier.size(200.dp).align(Alignment.Center)
         )
+
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -78,7 +79,6 @@ fun MainScreenContent() {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         )
-
         {
 
             Text(

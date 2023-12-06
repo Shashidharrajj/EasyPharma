@@ -6,4 +6,5 @@
     <string name="title_activity_user">UserActivity</string>
     <string name="title_activity_pharmacist">PharmacistActivity</string>
     <string name="title_activity_pharmacies_page">PharmaciesPage</string>
+    <string name="title_activity_pharmacy_detail_page">PharmacyDetailPage</string>
 </resources>

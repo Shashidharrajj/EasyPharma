@@ -1,5 +1,7 @@
 package com.test.easypharmaapp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -10,6 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,11 +34,14 @@ class UserActivity : ComponentActivity() {
 @Composable
 fun UserActivityPageCompose() {
     var context= LocalContext.current;
-    var searchText by remember { mutableStateOf("") }
-    var selectedItem by remember { mutableStateOf("") }
-    var isItemSelected by remember { mutableStateOf(false) }
-    var medicineCart by remember { mutableStateOf(listOf<String>()) }
+    var search_text by remember { mutableStateOf("") }
+    var selected_item by remember { mutableStateOf("") }
+    var isSelected by remember { mutableStateOf(false) }
+    var medicine_cart by remember { mutableStateOf(listOf<Medicine>()) }
+    LaunchedEffect(Unit) {
 
+        medicine_cart = loadCartItems(context)
+    }
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -43,11 +50,12 @@ fun UserActivityPageCompose() {
                 Button(
                     onClick = {
 
-                        if (medicineCart.isEmpty()) {
+                        if (medicine_cart.isEmpty()) {
                             Toast.makeText(context, "Medicine cart is empty", Toast.LENGTH_SHORT).show()
                         }
                         else {
-
+                            val intent = Intent(context, PharmaciesPage::class.java)
+                            context.startActivity(intent)
                         }
                     },
 
@@ -64,10 +72,10 @@ fun UserActivityPageCompose() {
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
-                value = if (isItemSelected) selectedItem else searchText,
+                value = if (isSelected) selected_item else search_text,
                 onValueChange = {
-                    searchText = it
-                    isItemSelected = false
+                    search_text = it
+                    isSelected = false
                 },
                 label = { Text("Search") },
                 modifier = Modifier
@@ -75,17 +83,19 @@ fun UserActivityPageCompose() {
                     .padding(vertical = 8.dp)
             )
 
-            if (!isItemSelected) {
-                val searchResults = searchItems(searchText)
-                searchResults.forEach { item ->
+            if (!isSelected) {
+                val searchResults = search_items(context, search_text)
+                searchResults.forEach { medicine ->
                     Text(
-                        text = item,
+                        text = medicine.name,
                         fontSize = 18.sp,
                         modifier = Modifier
                             .padding(4.dp)
                             .clickable {
-                                selectedItem = item
-                                isItemSelected = true
+                                val db_helper = LocalDatabase(context)
+                                db_helper.addToCart(medicine.id, medicine.name)
+                                medicine_cart = medicine_cart + medicine
+                                Toast.makeText(context,"Added to cart",Toast.LENGTH_SHORT).show()
                             }
                     )
                 }
@@ -94,45 +104,65 @@ fun UserActivityPageCompose() {
             Spacer(modifier = Modifier.height(16.dp))
             Text("Medicine Cart:", style = MaterialTheme.typography.h6)
 
-            Button(
-                onClick = {
-                    if(selectedItem.isNotEmpty()) {
-                        medicineCart = medicineCart + selectedItem
-                        selectedItem = ""
-                        isItemSelected = false
-                    }
-                },
-                modifier = Modifier.align(Alignment.End),
-                enabled = selectedItem.isNotEmpty()
-            ) {
-                Text("Add to Cart")
-            }
-
             LazyColumn {
-                items(medicineCart) { medicine ->
+                items(medicine_cart) { medicine ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
                         elevation = 4.dp
                     ) {
-                        Text(
-                            text = medicine,
-                            modifier = Modifier.padding(16.dp),
-                            fontSize = 16.sp
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = medicine.name,
+                                modifier = Modifier.padding(16.dp),
+                                fontSize = 16.sp
+                            )
+
+                            Icon(
+
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete",
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .clickable {
+
+                                        val localDatabase = LocalDatabase(context)
+                                        localDatabase.deleteFromCart(medicine.id)
+                                        medicine_cart = medicine_cart.filter { it.id != medicine.id }
+                                        Toast.makeText(context, "Item removed from cart", Toast.LENGTH_SHORT).show()
+
+
+                                    }
+                            )
+                        }
                     }
                 }
             }
+
+
         }
     }
 }
 
-fun searchItems(query: String): List<String> {
-    val medicinesList = listOf("Asprin", "Paracetamol")
+fun search_items(context: Context, query: String): List<Medicine> {
+    val db_helper = LocalDatabase(context)
+    val medicine_list = db_helper.get_all_medicines()
+
     return if (query.isEmpty()) {
         listOf()
     } else {
-        medicinesList.filter { it.contains(query, ignoreCase = true) }
+        medicine_list.filter { it.name.contains(query, ignoreCase = true) }
     }
 }
+
+
+fun loadCartItems(context: Context): List<Medicine> {
+    val db_helper = LocalDatabase(context)
+    return db_helper.get_cart_items()
+}
+

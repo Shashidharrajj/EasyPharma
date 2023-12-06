@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyPharmaApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".PharmacyDetailPage"
+            android:exported="false"
+            android:label="@string/title_activity_pharmacy_detail_page"
+            android:theme="@style/Theme.EasyPharmaApp" />
         <activity
             android:name=".PharmacistActivity"
             android:exported="false"
@@ -33,7 +37,6 @@
             android:exported="false"
             android:label="@string/title_activity_splash"
             android:theme="@style/Theme.EasyPharmaApp" />
-
         <activity
             android:name=".PharmaciesPage"
             android:exported="false"
