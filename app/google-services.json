@@ -1,14 +1,13 @@
 {
   "project_info": {
-    "project_number": "255448130976",
-    "firebase_url": "https://easypharma-9b41c-default-rtdb.firebaseio.com",
-    "project_id": "easypharma-9b41c",
-    "storage_bucket": "easypharma-9b41c.appspot.com"
+    "project_number": "77961393241",
+    "project_id": "easypharmaapp-3adfe",
+    "storage_bucket": "easypharmaapp-3adfe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:255448130976:android:22f3b2cda6e9d86d59b0c5",
+        "mobilesdk_app_id": "1:77961393241:android:36bd56719eca2cca45ad48",
         "android_client_info": {
           "package_name": "com.test.easypharmaapp"
         }
@@ -16,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB2iFh5qxsPEG45MLf0qPjTFP94DhBHkTg"
+          "current_key": "AIzaSyA4s-gNelmc6oyXoss78L_omVRL9obvbe8"
         }
       ],
       "services": {
