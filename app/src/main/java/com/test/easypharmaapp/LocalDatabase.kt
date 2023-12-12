@@ -33,10 +33,28 @@ class LocalDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         if (cursor != null && cursor.moveToFirst()) {
             val count = cursor.getInt(0)
             if (count == 0) {
-                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (1, 'Paracetamol')")
-                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (2, 'Aspirin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (1, 'Aspirin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (2, 'Paracetamol')")
                 db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (3, 'Ibuprofen')")
                 db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (4, 'Amoxicillin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (5, 'Metformin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (6, 'Amlodipine')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (7, 'Simvastatin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (8, 'Omeprazole')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (9, 'Losartan')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (10, 'Acetaminophen')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (11, 'Hydrochlorothiazide')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (12, 'Gabapentin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (13, 'Sertraline')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (14, 'Metoprolol')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (15, 'Atorvastatin')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (16, 'Albuterol')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (17, 'Lisinopril')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (18, 'Fluoxetine')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (19, 'Pantoprazole')")
+                db.execSQL("INSERT INTO $TABLE_MEDICINES ($COLUMN_ID, $COLUMN_NAME) VALUES (20, 'Ciprofloxacin')")
+
+
             }
         }
         cursor?.close()

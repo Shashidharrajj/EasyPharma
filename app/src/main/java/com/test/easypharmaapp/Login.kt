@@ -27,6 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.test.easypharmaapp.ui.theme.EasyPharmaAppTheme
 import com.test.onlinestoreapp.HelperClass
 
@@ -114,13 +118,18 @@ fun LoginScreenCompose() {
                                 HelperClass.hideProgress()
                                 val uid = my_auth.currentUser?.uid
 
-                                val sharedPreferences = context.getSharedPreferences("Easypharma", Context.MODE_PRIVATE)
-                                val editor = sharedPreferences.edit()
-                                editor.putString("uid",uid )
-                                editor.apply()
+                                fetch_info(uid) { pharmacyName ->
+                                    val sharedPreferences = context.getSharedPreferences("Easypharma", Context.MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putString("uid", uid)
+                                    editor.putString("pharmacyName", pharmacyName)
+                                    editor.apply()
 
-                                val intent = Intent(context, PharmacistActivity::class.java)
-                                context.startActivity(intent)
+                                    val intent = Intent(context, PharmacistActivity::class.java)
+                                    context.startActivity(intent)
+                                }
+
+
 
 
                             } else {
@@ -163,10 +172,22 @@ fun LoginScreenCompose() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    EasyPharmaAppTheme {
-        LoginScreenCompose()
+fun fetch_info(uid: String?, onComplete: (String) -> Unit) {
+    if (uid == null) {
+        onComplete("")
+        return
     }
+
+    val db = FirebaseDatabase.getInstance().getReference("pharmacists").child(uid)
+    db.addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val pharmacist = snapshot.getValue(Pharmacist::class.java)
+            val pharmacyName = pharmacist?.pharmacyName ?: ""
+            onComplete(pharmacyName)
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            onComplete("")
+        }
+    })
 }

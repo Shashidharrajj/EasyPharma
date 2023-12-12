@@ -42,12 +42,33 @@ class PharmacistActivity : ComponentActivity() {
 @Composable
 fun PharmacistScreen() {
     var context= LocalContext.current;
+    val sharedPreferences = context.getSharedPreferences("Easypharma", Context.MODE_PRIVATE)
+    val pharmacyName = sharedPreferences.getString("pharmacyName", "XYZ Pharmacy") ?: "XYZ Pharmacy"
+
     val image: Painter = painterResource(id = R.drawable.newpharma)
-    val pharmacyName = "XYZ Pharmacy"
     val medicines = listOf(
         Medicine("1", "Aspirin"),
         Medicine("2", "Paracetamol"),
+        Medicine("3", "Ibuprofen"),
+        Medicine("4", "Amoxicillin"),
+        Medicine("5", "Metformin"),
+        Medicine("6", "Amlodipine"),
+        Medicine("7", "Simvastatin"),
+        Medicine("8", "Omeprazole"),
+        Medicine("9", "Losartan"),
+        Medicine("10", "Acetaminophen"),
+        Medicine("11", "Hydrochlorothiazide"),
+        Medicine("12", "Gabapentin"),
+        Medicine("13", "Sertraline"),
+        Medicine("14", "Metoprolol"),
+        Medicine("15", "Atorvastatin"),
+        Medicine("16", "Albuterol"),
+        Medicine("17", "Lisinopril"),
+        Medicine("18", "Fluoxetine"),
+        Medicine("19", "Pantoprazole"),
+        Medicine("20", "Ciprofloxacin")
     )
+
     var showDialog by remember { mutableStateOf(false) }
     var selectedMedicine by remember { mutableStateOf<Medicine?>(null) }
 
