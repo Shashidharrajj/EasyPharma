@@ -327,7 +327,6 @@ class SignUp : ComponentActivity() {
     }
 
 }
-
 data class Pharmacist(
     val uid: String="",
     val name: String="",
