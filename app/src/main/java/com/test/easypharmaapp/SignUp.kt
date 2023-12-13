@@ -329,13 +329,13 @@ class SignUp : ComponentActivity() {
 }
 
 data class Pharmacist(
-    val uid: String,
-    val name: String,
-    val pharmacyName: String,
-    val email: String,
-    val phoneNumber: String,
-    val latitude: String,
-    val longitude: String
+    val uid: String="",
+    val name: String="",
+    val pharmacyName: String="",
+    val email: String="",
+    val phoneNumber: String="",
+    val latitude: String="",
+    val longitude: String=""
 
 )
 
